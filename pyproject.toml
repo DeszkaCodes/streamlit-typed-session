@@ -1,0 +1,24 @@
+[project]
+name = "streamlit-typed-session"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["streamlit>=1.46.0", "typing-extensions>=4.14.0"]
+
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "pydantic>=2.11.7",
+    "pyright>=1.1.402",
+    "pytest>=8.4.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.10"
