@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from collections.abc import Callable, MutableMapping
 from typing import Any, TypeVar, final
-from streamlit.elements.lib.utils import Key
 
+from streamlit.elements.lib.utils import Key
 
 __all__ = [
     "Unset",
