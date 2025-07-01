@@ -13,6 +13,7 @@ dev = [
     "pydantic>=2.11.7",
     "pyright>=1.1.402",
     "pytest>=8.4.1",
+    "ruff>=0.12.1",
 ]
 
 [build-system]
