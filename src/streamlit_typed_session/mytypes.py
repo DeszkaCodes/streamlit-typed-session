@@ -12,6 +12,7 @@ __all__ = [
     "SessionStateValue",
     "StateVar",
     "Unset",
+    "UnsetType",
 ]
 
 _T = TypeVar("_T")
@@ -22,7 +23,9 @@ class Unset:
     """Used to mark session properties that are not set."""
 
 
-StateVar = _T | Unset
+UnsetType = type[Unset]
+
+StateVar = _T | UnsetType
 
 SessionStateKey = Key
 SessionStateValue = Any
