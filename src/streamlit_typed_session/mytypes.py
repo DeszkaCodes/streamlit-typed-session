@@ -6,12 +6,12 @@ from typing import Any, TypeVar, final
 from streamlit.elements.lib.utils import Key
 
 __all__ = [
-    "Unset",
-    "StateVar",
     "SessionStateKey",
-    "SessionStateValue",
     "SessionStateLike",
     "SessionStateProvider",
+    "SessionStateValue",
+    "StateVar",
+    "Unset",
 ]
 
 _T = TypeVar("_T")

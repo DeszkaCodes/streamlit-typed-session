@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import sys
-from collections.abc import Callable
-from typing import Generic, NoReturn, TypeVar, overload
+from typing import TYPE_CHECKING, Generic, NoReturn, TypeVar, overload
 
 if sys.version_info >= (3, 12):
     from typing import override
@@ -12,7 +11,10 @@ else:
 
 from streamlit_typed_session.mytypes import SessionStateLike, Unset
 
-__all__ = ["SessionVariableDescriptor", "DefaultSessionVariableDescriptor"]
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+__all__ = ["DefaultSessionVariableDescriptor", "SessionVariableDescriptor"]
 
 _TR = TypeVar("_TR")
 
@@ -28,7 +30,7 @@ class SessionVariableDescriptor(Generic[_TR]):
         self,
         session_state: SessionStateLike,
         key: str,
-    ):
+    ) -> None:
         self._key: str = key
         self._session_state: SessionStateLike = session_state
 
@@ -46,15 +48,16 @@ class SessionVariableDescriptor(Generic[_TR]):
         self,
         instance: object | None,
         type: type,
-    ) -> NoReturn | _TR | type[Unset]: ...
+    ) -> _TR | type[Unset]: ...
 
     def __get__(
         self,
         instance: object | None,
-        type: type,
-    ) -> NoReturn | _TR | type[Unset]:
+        type: type,  # noqa: A002
+    ) -> _TR | type[Unset]:
         if instance is None:
-            raise AttributeError(f"type object '{type.__name__}' has no attribute '{self.__name__}'")
+            msg = f"type object '{type.__name__}' has no attribute '{self.__name__}'"
+            raise AttributeError(msg)
 
         if self._key not in self._session_state:
             return Unset
@@ -97,12 +100,13 @@ class DefaultSessionVariableDescriptor(SessionVariableDescriptor[_TR]):
         default_factory: Callable[[], _TR] | type[Unset] = Unset,
     ) -> None:
         if (default is Unset and default_factory is Unset) or (default is not Unset and default_factory is not Unset):
-            raise ValueError("either 'default' or 'default_factory' must be set but not both")
+            msg = "either 'default' or 'default_factory' must be set but not both"
+            raise ValueError(msg)
 
         if default_factory is not Unset:
             default = default_factory()
         else:
-            assert default is not Unset
+            assert default is not Unset  # noqa: S101
 
         super().__init__(session_state, key)
 
@@ -119,17 +123,19 @@ class DefaultSessionVariableDescriptor(SessionVariableDescriptor[_TR]):
         self,
         instance: object | None,
         type: type,
-    ) -> NoReturn | _TR: ...
+    ) -> _TR: ...
 
     @override
     def __get__(
         self,
         instance: object | None,
         type: type,
-    ) -> NoReturn | _TR:
+    ) -> _TR:
         if self._key not in self._session_state:
             self._session_state[self._key] = self._default
 
         value = super().__get__(instance, type)
-        assert value is not Unset
+        if value is Unset:
+            msg = f"value is '{Unset.__name__}'"
+            raise ValueError(msg)
         return value
