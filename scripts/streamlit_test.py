@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from streamlit_typed_session.bases import SessionBase
-from streamlit_typed_session.mytypes import StateVar, Unset
+from streamlit_typed_session import SessionBase, StateVar, Unset
 
 
 class SessionModel(SessionBase):
