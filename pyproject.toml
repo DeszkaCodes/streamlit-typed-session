@@ -8,7 +8,7 @@ dependencies = ["streamlit>=1.46.0", "typing-extensions>=4.14.0"]
 
 
 [dependency-groups]
-dev = ["pydantic>=2.11.7", "pytest>=8.4.1", "ruff>=0.12.1"]
+dev = ["deptry>=0.23.0", "pydantic>=2.11.7", "pytest>=8.4.1", "ruff>=0.12.1"]
 
 
 [build-system]
@@ -24,5 +24,14 @@ line-length = 120
 select = ["ALL"]
 ignore = ["D", "COM812"]
 
-[tool.ruff.ignore-per-file]
+
+[tool.ruff.lint.per-file-ignores]
 "scripts/*" = ["T201"]
+
+
+[tool.deptry]
+extend_exclude = ["scripts/*"]
+
+
+[tool.deptry.per_rule_ignores]
+DEP003 = ["streamlit_typed_session"]
