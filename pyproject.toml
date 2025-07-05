@@ -8,7 +8,7 @@ dependencies = ["streamlit>=1.46.0", "typing-extensions>=4.14.0"]
 
 
 [dependency-groups]
-dev = ["deptry>=0.23.0", "pydantic>=2.11.7", "pytest>=8.4.1", "ruff>=0.12.1"]
+dev = ["deptry>=0.23.0", "pytest>=8.4.1", "ruff>=0.12.1"]
 
 
 [build-system]
